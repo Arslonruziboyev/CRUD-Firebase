@@ -4,6 +4,9 @@ import "./App.css";
 
 function App() {
   const [isSinup, setIsSignup] = useState(true);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <div className="App">
       <div className="text-center shadow-lg p-3 mb-5 bg-body rounded">
