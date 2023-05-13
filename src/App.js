@@ -26,10 +26,16 @@ function App() {
             <br />
             <input type="password" name="" id="password" />
           </div>
-          {isSinup ? <button>Siginup</button> : <button>Login</button>}
+          {isSinup ? (
+            <button onClick={() => setIsSignup(!isSinup)}>Siginup</button>
+          ) : (
+            <button>Login</button>
+          )}
         </form>
         <button type="button">
-          {isSinup ? "Alredy have an account?Login" : "Dont Have An Account"}
+          {isSinup
+            ? "Alredy have an account ? Login"
+            : "Dont Have An Account ? SiginUp"}
         </button>
       </div>
     </div>
