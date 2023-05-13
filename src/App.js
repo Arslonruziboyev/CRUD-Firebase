@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
             </div>
           )}
           <div>
-            <label htmlFor="email">Email</label>
+            <label className="fs-5" htmlFor="email">
+              Email
+            </label>
             <br />
             <input
               className="w-25 rounded-pill"
@@ -29,7 +32,9 @@ function App() {
             />
           </div>
           <div>
-            <label htmlFor="password">Password</label>
+            <label className="fs-5" htmlFor="password">
+              Password
+            </label>
             <br />
             <input
               className="w-25 rounded-pill"
@@ -39,12 +44,21 @@ function App() {
             />
           </div>
           {isSinup ? (
-            <button onClick={() => setIsSignup(!isSinup)}>Siginup</button>
+            <button
+              className="btn btn-primary mt-2"
+              onClick={() => setIsSignup(!isSinup)}
+            >
+              Siginup
+            </button>
           ) : (
-            <button>Login</button>
+            <button className="btn btn-primary mt-2">Login</button>
           )}
         </form>
-        <button onClick={() => setIsSignup(!isSinup)} type="button">
+        <button
+          onClick={() => setIsSignup(!isSinup)}
+          className="btn btn-info rounded-fill mt-2"
+          type="button"
+        >
           {isSinup
             ? "Alredy have an account ? Login"
             : "Dont Have An Account ? SiginUp"}
