@@ -5,26 +5,38 @@ function App() {
   const [isSinup, setIsSignup] = useState(true);
   return (
     <div className="App">
-      <div className="text-center">
+      <div className="text-center shadow-lg p-3 mb-5 bg-body rounded">
         <h1>{isSinup ? "Siginup" : "Login"}</h1>
         <br />
         <form>
           {isSinup && (
             <div>
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username" className="fs-5">
+                Username
+              </label>
               <br />
-              <input type="text" id="username" />
+              <input type="text" id="username" className="w-25 rounded-pill" />
             </div>
           )}
           <div>
             <label htmlFor="email">Email</label>
             <br />
-            <input type="text" name="" id="email" />
+            <input
+              className="w-25 rounded-pill"
+              type="text"
+              name=""
+              id="email"
+            />
           </div>
           <div>
             <label htmlFor="password">Password</label>
             <br />
-            <input type="password" name="" id="password" />
+            <input
+              className="w-25 rounded-pill"
+              type="password"
+              name=""
+              id="password"
+            />
           </div>
           {isSinup ? (
             <button onClick={() => setIsSignup(!isSinup)}>Siginup</button>
@@ -32,7 +44,7 @@ function App() {
             <button>Login</button>
           )}
         </form>
-        <button type="button">
+        <button onClick={() => setIsSignup(!isSinup)} type="button">
           {isSinup
             ? "Alredy have an account ? Login"
             : "Dont Have An Account ? SiginUp"}
