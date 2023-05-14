@@ -1,6 +1,46 @@
 import React from "react";
+import { useState } from "react";
+import { auth } from "../config/Firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const MainPage = () => {
+  const [isSinup, setIsSignup] = useState(true);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSiginup = () => {
+    console.log(email, username, password);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log("user creted");
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
+
+  const handleLogin = () => {
+    console.log(email, password);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        alert("success");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
+
   return (
     <div className="text-center shadow-lg p-3 mb-5 bg-body rounded">
       <h1>{isSinup ? "Siginup" : "Login"}</h1>

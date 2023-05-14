@@ -1,22 +1,16 @@
-import { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import MainPage from "./screen/MainPage";
 
-function App() {
-  const [isSinup, setIsSignup] = useState(true);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSiginup = () => {
-    console.log(email, username, password);
-  };
-
-  const handleLogin = () => {
-    console.log(email, password);
-  };
-
-  return <div className="App"></div>;
-}
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
