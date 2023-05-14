@@ -3,20 +3,30 @@ import { useState } from "react";
 import { auth } from "../config/Firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
-  const [isSinup, setIsSignup] = useState(true);
+  const [isSignup, setIsSignup] = useState(true);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSiginup = () => {
+  const navigate = useNavigate();
+  const db = getDatabase();
+  const handleSignup = () => {
     console.log(email, username, password);
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log("user creted");
-        // Signed in
-        const user = userCredential.user;
+      .then((success) => {
+        console.log("user creatted");
+
+        set(ref(db, `users/${success.user.uid}`), {
+          username: username,
+          email: email,
+          id: success.user.uid,
+        });
+
+        // const user = userCredential.user;
+
         // ...
       })
       .catch((error) => {
@@ -25,88 +35,103 @@ const MainPage = () => {
         // ..
       });
   };
-
   const handleLogin = () => {
     console.log(email, password);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
-        alert("success");
+        let log = {
+          uids: user.uid,
+        };
+        // console.log(log.uids)
+        console.log("user loginne");
+        navigate("/homesc", {
+          state: log,
+        });
+        // navigate("/homesc",{
+        //   state:arr
+        // })
         // ...
       })
+
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
       });
   };
-
   return (
     <div className="text-center shadow-lg p-3 mb-5 bg-body rounded">
-      <h1>{isSinup ? "Siginup" : "Login"}</h1>
+      <h1>{isSignup ? "Singup" : "Login"}</h1>
       <br />
-      <form>
-        {isSinup && (
-          <div>
-            <label htmlFor="username" className="fs-5">
-              Username
-            </label>
-            <br />
-            <input
-              type="text"
-              id="username"
-              className="w-25 rounded-pill"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-        )}
+
+      {isSignup && (
         <div>
-          <label className="fs-5" htmlFor="email">
-            Email
+          <label htmlFor="username" className="fs-5">
+            Username
           </label>
           <br />
           <input
-            className="w-25 rounded-pill"
             type="text"
-            name=""
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="fs-5" htmlFor="password">
-            Password
-          </label>
-          <br />
-          <input
+            id="username"
             className="w-25 rounded-pill"
-            type="password"
-            name=""
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        {isSinup ? (
-          <button className="btn btn-primary mt-2" onClick={handleSiginup}>
-            Siginup
-          </button>
-        ) : (
-          <button className="btn btn-primary mt-2" onClick={handleLogin}>
-            Login
-          </button>
-        )}
-      </form>
+      )}
+      <div>
+        <label htmlFor="email" className="fs-5">
+          Email
+        </label>
+        <br />
+        <input
+          type="text"
+          name=""
+          id="email"
+          className="w-25 rounded-pill"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="email" className="fs-5">
+          Password
+        </label>
+        <br />
+        <input
+          type="password"
+          name=""
+          id="password"
+          className="w-25 rounded-pill"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      {isSignup ? (
+        <button
+          className="mt-3 mx-auto m-4 btn btn-success rounded-pill"
+          onClick={handleSignup}
+        >
+          Signup
+        </button>
+      ) : (
+        <button
+          className="mt-3 mx-auto m-4 btn btn-success rounded-pill"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
+      )}
+
+      <br />
       <button
-        onClick={() => setIsSignup(!isSinup)}
-        className="btn btn-info rounded-fill mt-2"
         type="button"
+        onClick={() => setIsSignup(!isSignup)}
+        className="btn btn-info rounded-pill"
       >
-        {isSinup
-          ? "Alredy have an account ? Login"
-          : "Dont Have An Account ? SiginUp"}
+        {isSignup
+          ? "Already have an acount?Login "
+          : "Dont Have An Acount ? Signup"}
       </button>
     </div>
   );
